@@ -6,30 +6,46 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
-<body class="font-sans text-gray-800">
+<body class="font-awesome text-red-1500">
 
   <!-- Navbar -->
   <nav class="flex justify-between items-center bg-gradient-to-r from-green-500 to-gray-700 text-yellow p-4 sticky top-0 z-50 shadow-lg">
-    <h2 class="text-7xl font-bold flex items-center gap-2"><i class="fas fa-gem"></i> Xtra Ordinary</h2>
-    <div class="space-x-3">
-      <button class="flex items-center gap-5 bg-white text-red-600 px-4 py-2 rounded-full shadow hover:scale-105 transition"><i class="fas fa-store"></i> Shop</button>
-      <button class="flex items-center gap-5 bg-white text-red-600 px-4 py-2 rounded-full shadow hover:scale-105 transition"><i class="fas fa-shopping-cart"></i> Cart (0)</button>
-      <button class="flex items-center gap-5 bg-white text-red-600 px-4 py-2 rounded-full shadow hover:scale-105 transition"><i class="fas fa-user-cog"></i> Admin</button>
-      <button class="flex items-center gap-5 bg-white text-red-600 px-4 py-2 rounded-full shadow hover:scale-105 transition"><i class="fas fa-heart"></i> Wishlist</button>
-      <button class="flex items-center gap-5 bg-white text-red-600 px-4 py-2 rounded-full shadow hover:scale-105 transition"><i class="fas fa-user"></i> Profile</button>
-      <button class="flex items-center gap-5 bg-white text-red-600 px-4 py-2 rounded-full shadow hover:scale-105 transition"><i class="fas fa-tags"></i> Offers</button>
-    </div>
-  </nav>
+
+  <!-- Logo -->
+ <h2 class="text-7xl font-bold text-black flex items-center gap-3" style="text-shadow: 0 0 90px #150b5a, 0 0 0px #f87171, 0 0 20px #061339;">
+  <i class="fas fa-gem"></i> Xtra Ordinary
+</h2>
+  <!-- Buttons side by side -->
+  <div class="flex flex-wrap gap-3 md:gap-5">
+    <button class="flex items-center gap-2 bg-red-500 text-black-600 px-4 py-2 rounded-full shadow hover:scale-105 transition"><i class="fas fa-store"></i> Shop</button>
+    <button class="flex items-center gap-2 bg-red-500 text-black-600 px-4 py-2 rounded-full shadow hover:scale-105 transition"><i class="fas fa-shopping-cart"></i> Cart (0)</button>
+    <button class="flex items-center gap-2 bg-red-500 text-black-600 px-4 py-2 rounded-full shadow hover:scale-105 transition"><i class="fas fa-user-cog"></i> Admin</button>
+    <button class="flex items-center gap-2 bg-red-500 text-black-600 px-4 py-2 rounded-full shadow hover:scale-105 transition"><i class="fas fa-heart"></i> Wishlist</button>
+    <button class="flex items-center gap-2 bg-red-500 text-black-600 px-4 py-2 rounded-full shadow hover:scale-105 transition"><i class="fas fa-user"></i> Profile</button>
+    <button class="flex items-center gap-2 bg-red-500 text-black-600 px-4 py-2 rounded-full shadow hover:scale-105 transition"><i class="fas fa-tags"></i> Offers</button>
+  </div>
+</nav>
 
   <!-- Hero Section -->
-  <header class="h-screen bg-cover bg-center flex flex-col justify-center items-center text-white text-center relative" style="background-image: url('https://images.unsplash.com/photo-1612817159949-4e6b6fb0fef2?auto=format&fit=crop&w=1600&q=80');">
-    <div class="absolute inset-0 bg-black/40"></div>
-    <div class="relative z-10">
-      <h1 class="text-5xl font-bold mb-4 drop-shadow-lg">Xtra Ordinary</h1>
-      <p class="text-lg mb-6 drop-shadow-lg">Discover luxury perfumes, watches, and sneakers at student-friendly prices</p>
-      <button class="bg-gradient-to-r from-yellow-600 to-red-400 hover:from-yellow-500 hover:to-red-300 px-6 py-3 rounded-full text-lg shadow-lg flex items-center gap-0"><i class="fas fa-shopping-bag"></i> Shop Now </button>
-    </div>
-  </header>
+  <header class="h-screen bg-cover bg-center flex flex-col justify-center items-center text-white text-center relative" 
+        style="background-image: url('https://images.unsplash.com/photo-1612817159949-4e6b6fb0fef2?auto=format&fit=crop&w=1600&q=80');">
+
+  <!-- Dark overlay -->
+  <div class="absolute inset-0 bg-black/70"></div>
+
+  <!-- Hero Text + Button -->
+  <div class="relative z-10 flex flex-col items-center gap-6">
+    <h1 class="text-18xl md:text-8xl font-extrabold text-black drop-shadow-[0_0_70px_#7FFFD4] drop-shadow-[0_0_20px_#f87171] drop-shadow-[0_0_30px_#f43f5e]">
+  Xtra Ordinary
+</h1>
+    <p class="text-lg md:text-3xl drop-shadow-lg">Discover luxury perfumes, watches, and sneakers at student-friendly prices</p>
+    <button class="bg-gradient-to-r from-black to-red hover:from-yellow-500 hover:to-red-300 px-12 py-6 rounded-full text-xl md:text-2xl shadow-lg flex items-center gap-5">
+      <i class="fas fa-shopping-bag"></i> Shop Now
+    </button>
+  </div>
+
+</header>
+
 
   <!-- Category Filter -->
   <section class="text-center my-8">
@@ -116,3 +132,4 @@
 
 </body>
 </html>
+
