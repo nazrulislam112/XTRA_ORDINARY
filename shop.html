@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xtra Ordinary Store | Shop Products</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f7f7;
+        }
+        .nav-logo-shadow {
+            text-shadow: 0 0 10px #150b5a, 0 0 10px #f87171, 0 0 10px #061339;
+        }
+        .nav-btn {
+            padding: 8px 12px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.2s;
+            background-color: transparent;
+            background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0));
+            transition: background-image 0.2s ease-in-out;
+        }
+        .nav-btn:hover {
+            background-image: linear-gradient(rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.15));
+        }
+        .product-card {
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(20, 184, 166, 0.3), 0 4px 6px -2px rgba(20, 184, 166, 0.1);
+        }
+        .sidebar-product-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background-color: white;
+            padding: 12px;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+        }
+        .sidebar-product-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 8px rgba(20, 184, 166, 0.2);
+        }
+    </style>
+</head>
+<body class="text-gray-900">
+
+    <nav class="flex justify-between items-center bg-gradient-to-r from-teal-600 to-cyan-500 text-white p-4 sticky top-0 z-50 shadow-xl">
+        <a href="index.html" class="flex items-center gap-3 text-white nav-logo-shadow hover:text-yellow-200 transition">
+            <i class="fas fa-gem text-3xl md:text-4xl"></i> 
+            
+            <!-- Logo Title Only -->
+            <div class="flex flex-col items-start leading-none">
+                <span class="text-3xl md:text-4xl font-extrabold">Xtra Ordinary</span>
+            </div>
+            <!-- End Logo Title -->
+        </a>
+        <div class="flex flex-wrap gap-2 md:gap-4 text-sm md:text-base">
+            <a href="index.html" class="nav-btn">
+                <i class="fas fa-home"></i> Home
+            </a>
+            <a href="cart.html" id="cart-nav-link" class="nav-btn relative">
+                <i class="fas fa-shopping-cart"></i> Cart (<span id="cart-count">0</span>)
+                <span id="cart-badge" class="absolute -top-1 -right-1 bg-red-700 text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center hidden">0</span>
+            </a>
+            <a href="cart.html" class="nav-btn">
+                <i class="fas fa-money-check-alt"></i> Checkout
+            </a>
+        </div>
+    </nav>
+
+    <!-- NEW SECTION: Category Indicators below Navbar -->
+    <section class="bg-gray-100 py-3 shadow-md border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 flex flex-wrap justify-center md:justify-start gap-6 text-sm font-semibold text-gray-700">
+            
+            <a href="javascript:void(0)" onclick="filterProducts(null)" id="filter-all" class="filter-link flex items-center gap-1 text-teal-600 underline decoration-2 decoration-teal-600">
+                <i class="fas fa-th-large text-lg"></i> All Products
+            </a>
+
+            <a href="javascript:void(0)" onclick="filterProducts('Perfumes')" id="filter-perfumes" class="filter-link flex items-center gap-1 hover:text-teal-600 transition">
+                <i class="fas fa-spray-can text-lg text-cyan-600"></i> Perfumes
+            </a>
+            
+            <a href="javascript:void(0)" onclick="filterProducts('Watches')" id="filter-watches" class="filter-link flex items-center gap-1 hover:text-teal-600 transition">
+                <i class="fas fa-clock text-lg text-teal-600"></i> Watches
+            </a>
+            
+            <a href="javascript:void(0)" onclick="filterProducts('Sneakers')" id="filter-sneakers" class="filter-link flex items-center gap-1 hover:text-teal-600 transition">
+                <i class="fas fa-shoe-prints text-lg text-blue-600"></i> Sneakers
+            </a>
+            
+            <span class="hidden sm:inline-block text-gray-400 ml-4">| Shop by Category</span>
+        </div>
+    </section>
+    <!-- END NEW SECTION -->
+
+    <main class="max-w-7xl mx-auto p-4 md:p-8">
+        <header class="bg-teal-500 p-8 rounded-xl shadow-lg my-8 text-white">
+            <!-- Updated header ID for filtering feature -->
+            <h1 id="products-header-title" class="text-4xl font-extrabold mb-2">
+                <i class="fas fa-store"></i> All Products
+            </h1>
+            <p class="text-xl">Discover the full collection of luxury items at student prices.</p>
+        </header>
+
+        <!-- New Grid Layout for Main Content and Sidebar -->
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            
+            <!-- ---------------------------------------------------- -->
+            <!-- LEFT AREA: Main Product Grid (Takes 3/4 width on large screens) -->
+            <!-- ---------------------------------------------------- -->
+            <div class="lg:col-span-3">
+                <!-- Product grid adjusted to fit 3 columns within the 3/4 space -->
+                <section id="product-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-12 lg:mb-0">
+                    <!-- Products will be dynamically inserted here -->
+                </section>
+            </div>
+
+
+            <!-- ---------------------------------------------------- -->
+            <!-- RIGHT AREA: Sidebar (Takes 1/4 width on large screens) -->
+            <!-- ---------------------------------------------------- -->
+            <aside id="sidebar" class="lg:col-span-1 space-y-8">
+                
+                <!-- Section 1: Featured Perfume -->
+                <div class="bg-white p-4 rounded-xl shadow-xl border-t-4 border-cyan-500">
+                    <h3 class="text-xl font-bold mb-3 text-cyan-700 flex items-center gap-2"><i class="fas fa-magic"></i> Featured Perfume</h3>
+                    <div class="sidebar-product-card">
+                        <img src="https://images.unsplash.com/photo-1574044196191-4e4b51833e21?auto=format&fit=crop&w=100&h=100&q=80" alt="Special Perfume" class="w-16 h-16 object-cover rounded-md">
+                        <div>
+                            <p class="font-semibold text-gray-800">Crimson Dusk</p>
+                            <p class="text-sm text-teal-600 font-bold">$79.99</p>
+                            <button onclick="addToCart(4)" class="text-xs text-white bg-teal-500 px-3 py-1 rounded-full mt-1 hover:bg-teal-600 transition">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 2: Best Selling Watch -->
+                <div class="bg-white p-4 rounded-xl shadow-xl border-t-4 border-teal-500">
+                    <h3 class="text-xl font-bold mb-3 text-teal-700 flex items-center gap-2"><i class="fas fa-medal"></i> Best Seller</h3>
+                    <div class="sidebar-product-card">
+                        <img src="https://images.unsplash.com/photo-1547900898-d144e5f03d52?auto=format&fit=crop&w=100&h=100&q=80" alt="Best Selling Watch" class="w-16 h-16 object-cover rounded-md">
+                        <div>
+                            <p class="font-semibold text-gray-800">Titan Stealth</p>
+                            <p class="text-sm text-cyan-600 font-bold">$189.99</p>
+                            <button onclick="addToCart(2)" class="text-xs text-white bg-teal-500 px-3 py-1 rounded-full mt-1 hover:bg-teal-600 transition">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 3: New Arrival Sneakers -->
+                <div class="bg-white p-4 rounded-xl shadow-xl border-t-4 border-blue-500">
+                    <h3 class="text-xl font-bold mb-3 text-blue-700 flex items-center gap-2"><i class="fas fa-shoe-prints"></i> New Arrival</h3>
+                    <div class="sidebar-product-card">
+                        <img src="https://images.unsplash.com/photo-1595341888016-a392ef81b21f?auto=format&fit=crop&w=100&h=100&q=80" alt="New Sneakers" class="w-16 h-16 object-cover rounded-md">
+                        <div>
+                            <p class="font-semibold text-gray-800">AeroGlide 4.0</p>
+                            <p class="text-sm text-teal-600 font-bold">$110.00</p>
+                            <button onclick="addToCart(3)" class="text-xs text-white bg-teal-500 px-3 py-1 rounded-full mt-1 hover:bg-teal-600 transition">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NEW: Section 4: AI Shopping Assistant (Gemini API Integration) -->
+                <div class="bg-white p-4 rounded-xl shadow-xl border-t-4 border-teal-600">
+                    <h3 class="text-xl font-bold mb-3 text-teal-700 flex items-center gap-2">
+                        <i class="fas fa-robot"></i> ✨ AI Shopping Assistant
+                    </h3>
+                    <p class="text-sm text-gray-600 mb-3">Ask for personalized recommendations or product comparisons!</p>
+                    <textarea id="assistant-query" placeholder="E.g., Which watch is best for a student in a job interview? Or, compare Zenith and Midnight Aura." 
+                              class="w-full p-2 border rounded-lg focus:ring-teal-500 focus:border-teal-500 mb-3 text-sm resize-none h-20"></textarea>
+                    
+                    <button onclick="fetchGeminiRecommendation()" id="recommendation-btn" 
+                            class="w-full bg-cyan-600 text-white py-3 rounded-full hover:bg-cyan-700 transition flex items-center justify-center gap-2 font-semibold">
+                        <i class="fas fa-paper-plane"></i> Get Recommendation
+                    </button>
+                    
+                    <div id="recommendation-loading" class="hidden text-center mt-3 p-2">
+                         <i class="fas fa-spinner fa-spin text-teal-500 text-2xl"></i> 
+                         <p class="text-sm text-gray-500 mt-1">Analyzing...</p>
+                    </div>
+
+                    <div id="recommendation-output" class="mt-3 text-xs text-gray-700 p-3 border border-gray-200 rounded-lg bg-gray-50 min-h-[50px] overflow-auto max-h-60 whitespace-pre-wrap">
+                        The assistant's response will appear here.
+                    </div>
+                </div>
+
+            </aside>
+            <!-- End Sidebar -->
+        </div>
+        <!-- End Main Grid Layout -->
+
+    </main>
+
+    <footer class="bg-gray-900 text-gray-400 text-center p-6 mt-12">
+        <p>© 2025 Xtra Ordinary E-commerce. All rights reserved.</p>
+        <div class="space-x-4 mt-2 flex flex-wrap justify-center gap-3">
+            <a href="index.html" class="underline flex items-center gap-1"><i class="fas fa-home"></i> Home</a>
+            <a href="mailto:contact@example.com" class="underline flex items-center gap-1"><i class="fas fa-envelope"></i> Contact Us</a>
+            <a href="#" class="underline flex items-center gap-1"><i class="fas fa-arrow-up"></i> Back to Top</a>
+        </div>
+    </footer>
+
+    <div id="message-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-[100]">
+        <div class="bg-white p-8 rounded-xl shadow-2xl max-w-sm w-full text-center transform transition-all duration-300 scale-100">
+            <i id="modal-icon" class="text-4xl mb-4"></i>
+            <h3 id="modal-title" class="text-2xl font-bold mb-3"></h3>
+            <p id="modal-body" class="mb-6"></p>
+            <button onclick="closeModal()" class="bg-teal-500 text-white px-6 py-2 rounded-full hover:bg-teal-600 transition">Close</button>
+        </div>
+    </div>
+
+    <script>
+        // --- Gemini API Setup ---
+        const apiKey = ""; 
+        const apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=" + apiKey;
+
+        // --- DATA (Products defined here for dynamic rendering) ---
+        const products = [
+            { id: 1, name: "Luxury Perfume: Zenith", price: 60.00, image: "https://images.unsplash.com/photo-1617038269894-d91d1a5e1f89?auto=format&fit=crop&w=500&q=80", category: "Perfumes" },
+            { id: 2, name: "Classic Watch: Chronos", price: 120.00, image: "https://images.unsplash.com/photo-1524594154908-edd3e0e7a65d?auto=format&fit=crop&w=500&q=80", category: "Watches" },
+            { id: 3, name: "Stylish Sneakers: Velocity", price: 80.00, image: "https://images.unsplash.com/photo-1528702748617-c64d49f918af?auto=format&fit=crop&w=500&q=80", category: "Sneakers" },
+            { id: 4, name: "Perfume: Midnight Aura", price: 75.00, image: "https://images.unsplash.com/photo-1589386475734-b2586e3d23d9?auto=format&fit=crop&w=500&q=80", category: "Perfumes" },
+            { id: 5, name: "Watch: Minimalist Black", price: 150.00, image: "https://images.unsplash.com/photo-1560067645-a4b08709339e?auto=format&fit=crop&w=500&q=80", category: "Watches" },
+            { id: 6, name: "Sneakers: Retro Runner", price: 95.00, image: "https://images.unsplash.com/photo-1600269450073-631627f12c8a?auto=format&fit=crop&w=500&q=80", category: "Sneakers" },
+        ];
+
+        let cart = [];
+
+        // --- DOM Elements ---
+        const productList = document.getElementById('product-list');
+        const cartCountSpan = document.getElementById('cart-count');
+        const cartBadgeSpan = document.getElementById('cart-badge');
+        const messageModal = document.getElementById('message-modal');
+        const queryInput = document.getElementById('assistant-query');
+        const outputDiv = document.getElementById('recommendation-output');
+        const loadingDiv = document.getElementById('recommendation-loading');
+        const recommendationBtn = document.getElementById('recommendation-btn');
+        const productsHeaderTitle = document.getElementById('products-header-title');
+
+
+        // --- Utility Functions (Modal functions) ---
+
+        function showModal(title, body, type = 'info') {
+            document.getElementById('modal-title').textContent = title;
+            document.getElementById('modal-body').textContent = body;
+            const icon = document.getElementById('modal-icon');
+            
+            icon.className = 'text-4xl mb-4';
+            
+            if (type === 'success') {
+                icon.classList.add('fas', 'fa-check-circle', 'text-green-500');
+            } else if (type === 'error') {
+                icon.classList.add('fas', 'fa-times-circle', 'text-red-500');
+            } else {
+                icon.classList.add('fas', 'fa-info-circle', 'text-blue-500');
+            }
+
+            messageModal.classList.remove('hidden');
+            messageModal.classList.add('flex');
+        }
+
+        function closeModal() {
+            messageModal.classList.add('hidden');
+            messageModal.classList.remove('flex');
+        }
+
+        // --- E-commerce Logic ---
+
+        function loadCart() {
+            const storedCart = localStorage.getItem('xtraOrdinaryCart');
+            cart = storedCart ? JSON.parse(storedCart) : [];
+        }
+
+        function saveCart() {
+            localStorage.setItem('xtraOrdinaryCart', JSON.stringify(cart));
+        }
+
+        function updateCartCount() {
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCountSpan.textContent = totalItems;
+            
+            if (totalItems > 0) {
+                cartBadgeSpan.textContent = totalItems;
+                cartBadgeSpan.classList.remove('hidden');
+            } else {
+                cartBadgeSpan.classList.add('hidden');
+            }
+        }
+
+        /**
+         * Renders the product cards onto the page, optionally filtered by category.
+         * @param {string | null} filterCategory - The category to filter by (or null for all).
+         */
+        function renderProducts(filterCategory = null) {
+            productList.innerHTML = ''; 
+            
+            let filteredProducts = products;
+            if (filterCategory) {
+                filteredProducts = products.filter(p => p.category === filterCategory);
+            }
+
+            // Update header title based on filter
+            const categoryName = filterCategory || 'All';
+            productsHeaderTitle.innerHTML = `<i class="fas fa-store"></i> ${categoryName} Products`;
+
+            // If no products found for filter
+            if (filteredProducts.length === 0) {
+                 productList.innerHTML = '<p class="text-center text-xl text-gray-500 py-10 lg:col-span-3">No products found in this category. Try selecting another filter or search the AI assistant for recommendations!</p>';
+                 return;
+            }
+
+            filteredProducts.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card bg-white rounded-xl p-4 text-center hover:scale-[1.02] transition transform';
+                
+                productCard.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}" class="rounded-lg mb-4 mx-auto h-48 w-full object-cover">
+                    <h3 class="text-xl font-bold mb-1 text-teal-700">${product.name}</h3>
+                    <p class="mb-4 text-2xl font-extrabold text-cyan-600">$${product.price.toFixed(2)}</p>
+                    <button onclick="addToCart(${product.id})" 
+                            class="flex items-center justify-center gap-2 w-full bg-teal-600 text-white px-4 py-3 rounded-full shadow-md hover:bg-teal-700 transition">
+                        <i class="fas fa-cart-plus"></i> Add to Cart
+                    </button>
+                `;
+                productList.appendChild(productCard);
+            });
+        }
+
+        /**
+         * Filters the products displayed on the page and updates the active filter state.
+         * @param {string | null} category - The category to filter by (e.g., 'Perfumes').
+         */
+        window.filterProducts = function(category) {
+            renderProducts(category);
+            
+            // Highlight active filter link
+            document.querySelectorAll('.filter-link').forEach(link => {
+                link.classList.remove('text-teal-600', 'underline', 'decoration-2', 'decoration-teal-600');
+                link.classList.add('hover:text-teal-600');
+            });
+            
+            let activeLink;
+            if (category) {
+                activeLink = document.getElementById(`filter-${category.toLowerCase()}`);
+            } else {
+                 activeLink = document.getElementById('filter-all');
+            }
+
+            if (activeLink) {
+                 activeLink.classList.add('text-teal-600', 'underline', 'decoration-2', 'decoration-teal-600');
+                 activeLink.classList.remove('hover:text-teal-600');
+            }
+        }
+
+
+        window.addToCart = function(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            const existingItem = cart.find(item => item.id === productId);
+
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ 
+                    id: product.id, 
+                    name: product.name, 
+                    price: product.price, 
+                    image: product.image,
+                    quantity: 1 
+                });
+            }
+
+            saveCart();
+            updateCartCount();
+            showModal("Item Added", `${product.name} has been added to your cart.`, 'success');
+        }
+
+        // --- GEMINI API Integration ---
+
+        async function fetchGeminiRecommendation() {
+            const userQuery = queryInput.value.trim();
+
+            if (!userQuery) {
+                outputDiv.textContent = "Please enter a question or comparison query.";
+                return;
+            }
+
+            // Show loading and disable button
+            outputDiv.textContent = '';
+            loadingDiv.classList.remove('hidden');
+            recommendationBtn.disabled = true;
+            recommendationBtn.classList.remove('bg-cyan-600', 'hover:bg-cyan-700');
+            recommendationBtn.classList.add('bg-gray-400', 'cursor-not-allowed');
+
+            const inventoryList = products.map(p => 
+                `ID: ${p.id}, Name: ${p.name}, Category: ${p.category}, Price: $${p.price.toFixed(2)}`
+            ).join('\n');
+
+            const systemPrompt = `You are a helpful e-commerce shopping assistant for 'Xtra Ordinary'. Your goal is to analyze the user's request and provide concise, informed recommendations based on the available product inventory and, if necessary, external information.
+
+Available Inventory:
+---
+${inventoryList}
+---
+
+Rules:
+1. Always prioritize matching the user's query to the products listed above.
+2. If the query requires general knowledge (e.g., 'What makes a good running shoe?'), use the search tool.
+3. Keep the response friendly, insightful, and formatted nicely (using Markdown).
+4. Do not mention the 'Available Inventory' list in your final response.`;
+
+            const payload = {
+                contents: [{ parts: [{ text: userQuery }] }],
+                tools: [{ "google_search": {} }],
+                systemInstruction: { parts: [{ text: systemPrompt }] },
+            };
+
+            let responseText = "Sorry, I couldn't get a recommendation at this time. Please try again later.";
+            const maxRetries = 3;
+            
+            for (let i = 0; i < maxRetries; i++) {
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (response.status === 429 && i < maxRetries - 1) {
+                        // Implement exponential backoff
+                        const delay = Math.pow(2, i) * 1000;
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                        continue; 
+                    }
+
+                    const result = await response.json();
+                    const candidate = result.candidates?.[0];
+
+                    if (candidate && candidate.content?.parts?.[0]?.text) {
+                        responseText = candidate.content.parts[0].text;
+                        break;
+                    } else if (result.error) {
+                        responseText = `Error: ${result.error.message}`;
+                        break;
+                    }
+
+                } catch (error) {
+                    responseText = `Network error: ${error.message}`;
+                    break;
+                }
+            }
+
+            // Clean up and display output
+            loadingDiv.classList.add('hidden');
+            recommendationBtn.disabled = false;
+            recommendationBtn.classList.add('bg-cyan-600', 'hover:bg-cyan-700');
+            recommendationBtn.classList.remove('bg-gray-400', 'cursor-not-allowed');
+            outputDiv.textContent = responseText;
+        }
+
+        // --- Initialization ---
+        window.onload = () => {
+            loadCart();
+            renderProducts(); // Render all products on initial load
+            updateCartCount();
+        };
+    </script>
+</body>
+</html>

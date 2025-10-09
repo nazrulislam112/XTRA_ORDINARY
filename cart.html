@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xtra Ordinary Store | Your Shopping Cart</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f7f7;
+        }
+        .nav-logo-shadow {
+            text-shadow: 0 0 10px #150b5a, 0 0 10px #f87171, 0 0 10px #061339;
+        }
+        .nav-btn {
+            padding: 8px 12px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.2s;
+            background-color: transparent;
+            background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0));
+            transition: background-image 0.2s ease-in-out;
+        }
+        .nav-btn:hover {
+            background-image: linear-gradient(rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.15));
+        }
+    </style>
+</head>
+<body class="text-gray-900">
+
+    <nav class="flex justify-between items-center bg-gradient-to-r from-teal-600 to-cyan-500 text-white p-4 sticky top-0 z-50 shadow-xl">
+        <a href="index.html" class="text-3xl md:text-4xl font-extrabold flex items-center gap-3 text-white nav-logo-shadow hover:text-yellow-200 transition">
+            <i class="fas fa-gem"></i> Xtra Ordinary
+        </a>
+        <div class="flex flex-wrap gap-2 md:gap-4 text-sm md:text-base">
+            <a href="index.html" class="nav-btn">
+                <i class="fas fa-home"></i> Home
+            </a>
+            <a href="shop.html" class="nav-btn">
+                <i class="fas fa-store"></i> Shop
+            </a>
+            <a href="cart.html" id="cart-nav-link" class="nav-btn relative bg-white/10">
+                <i class="fas fa-shopping-cart"></i> Cart (<span id="cart-count">0</span>)
+                <span id="cart-badge" class="absolute -top-1 -right-1 bg-red-700 text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center hidden">0</span>
+            </a>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto p-4 md:p-8">
+        <h1 class="text-5xl font-extrabold text-teal-700 mb-8 text-center"><i class="fas fa-shopping-cart"></i> Your Cart & Checkout</h1>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <section id="cart-section" class="lg:col-span-2 p-6 bg-white rounded-xl shadow-2xl border-t-4 border-teal-500">
+                <h2 class="text-3xl font-bold mb-6 flex items-center gap-3 text-teal-700">
+                    <i class="fas fa-list-alt"></i> Order Details
+                </h2>
+                <div id="cart-items-container" class="space-y-4 min-h-[100px]">
+                    <p id="empty-cart-message" class="text-gray-500 italic">Your cart is empty. <a href="shop.html" class="text-cyan-600 underline hover:text-cyan-800">Start shopping here!</a></p>
+                </div>
+                
+                <div class="flex justify-between items-center border-t border-gray-200 pt-4 mt-6">
+                    <button onclick="clearCart()" class="bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-600 transition flex items-center gap-2">
+                        <i class="fas fa-trash"></i> Clear Cart
+                    </button>
+                    <div class="text-2xl font-bold">
+                        Total: <span id="cart-total">$0.00</span>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="checkout" class="lg:col-span-1 p-6 bg-white rounded-xl shadow-2xl border-t-4 border-cyan-500 h-fit">
+                <h2 class="text-3xl font-bold mb-6 flex items-center gap-3 text-cyan-700">
+                    <i class="fas fa-money-check-alt"></i> Finalize Order
+                </h2>
+                <div id="checkout-form" class="space-y-4">
+                    <h3 class="font-semibold text-lg border-b pb-2">Shipping Information</h3>
+                    <input type="text" id="input-name" placeholder="Full Name" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-teal-500 focus:border-teal-500">
+                    <input type="text" id="input-address" placeholder="Address (Street, House No.)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-teal-500 focus:border-teal-500">
+                    <input type="text" id="input-city" placeholder="City / District" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-teal-500 focus:border-teal-500">
+                    <input type="text" id="input-postal" placeholder="Postal Code" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-teal-500 focus:border-teal-500">
+                    <input type="email" id="input-email" placeholder="Email" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-teal-500 focus:border-teal-500">
+                    
+                    <h3 class="font-semibold text-lg border-b pb-2 pt-4">Payment Method</h3>
+                    
+                    <div class="space-y-3">
+                        <label class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100">
+                            <input type="radio" name="payment" value="card" checked class="form-radio text-teal-500">
+                            <i class="fab fa-cc-visa text-2xl text-blue-600"></i>
+                            <span>Credit/Debit Card</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100">
+                            <input type="radio" name="payment" value="bkash" class="form-radio text-teal-500">
+                            <i class="fas fa-mobile-alt text-2xl text-green-600"></i>
+                            <span>bKash (Mobile Banking)</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100">
+                            <input type="radio" name="payment" value="nagad" class="form-radio text-teal-500">
+                            <i class="fas fa-mobile-alt text-2xl text-orange-600"></i>
+                            <span>Nagad (Mobile Banking)</span>
+                        </label>
+                    </div>
+
+                    <button onclick="mockPayment()" class="w-full bg-teal-600 text-white font-bold text-xl py-3 mt-6 rounded-full shadow-lg hover:bg-teal-700 transition">
+                        Pay <span id="payment-button-total">$0.00</span>
+                    </button>
+                    <p id="checkout-message" class="text-center text-sm font-medium hidden"></p>
+                </div>
+            </section>
+        </div>
+
+        <div id="message-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-[100]">
+            <div class="bg-white p-8 rounded-xl shadow-2xl max-w-sm w-full text-center transform transition-all duration-300 scale-100">
+                <i id="modal-icon" class="text-4xl mb-4"></i>
+                <h3 id="modal-title" class="text-2xl font-bold mb-3"></h3>
+                <p id="modal-body" class="mb-6"></p>
+                <button onclick="closeModal()" class="bg-teal-500 text-white px-6 py-2 rounded-full hover:bg-teal-600 transition">Close</button>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-900 text-gray-400 text-center p-6 mt-12">
+        <p>© 2025 Xtra Ordinary E-commerce. All rights reserved.</p>
+        <div class="space-x-4 mt-2 flex flex-wrap justify-center gap-3">
+            <a href="index.html" class="underline flex items-center gap-1"><i class="fas fa-home"></i> Home</a>
+            <a href="mailto:contact@example.com" class="underline flex items-center gap-1"><i class="fas fa-envelope"></i> Contact Us</a>
+            <a href="#" class="underline flex items-center gap-1"><i class="fas fa-arrow-up"></i> Back to Top</a>
+        </div>
+    </footer>
+
+    <script>
+        let cart = [];
+
+        // --- DOM Elements ---
+        const cartItemsContainer = document.getElementById('cart-items-container');
+        const cartTotalSpan = document.getElementById('cart-total');
+        const cartCountSpan = document.getElementById('cart-count');
+        const cartBadgeSpan = document.getElementById('cart-badge');
+        const emptyCartMessage = document.getElementById('empty-cart-message');
+        const paymentButtonTotal = document.getElementById('payment-button-total');
+        const messageModal = document.getElementById('message-modal');
+
+        // --- Utility Functions (Modal) ---
+
+        function showModal(title, body, type = 'info') {
+            document.getElementById('modal-title').textContent = title;
+            document.getElementById('modal-body').textContent = body;
+            const icon = document.getElementById('modal-icon');
+            
+            icon.className = 'text-4xl mb-4';
+            
+            if (type === 'success') {
+                icon.classList.add('fas', 'fa-check-circle', 'text-green-500');
+            } else if (type === 'error') {
+                icon.classList.add('fas', 'fa-times-circle', 'text-red-500');
+            } else {
+                icon.classList.add('fas', 'fa-info-circle', 'text-blue-500');
+            }
+
+            messageModal.classList.remove('hidden');
+            messageModal.classList.add('flex');
+        }
+
+        function closeModal() {
+            messageModal.classList.add('hidden');
+            messageModal.classList.remove('flex');
+        }
+
+        // --- Cart Management Functions ---
+
+        /**
+         * Loads cart data from LocalStorage.
+         */
+        function loadCart() {
+            const storedCart = localStorage.getItem('xtraOrdinaryCart');
+            cart = storedCart ? JSON.parse(storedCart) : [];
+        }
+
+        /**
+         * Saves the current cart data to LocalStorage.
+         */
+        function saveCart() {
+            localStorage.setItem('xtraOrdinaryCart', JSON.stringify(cart));
+        }
+
+        /**
+         * Updates the quantity of an item in the cart.
+         * @param {number} productId - The ID of the product.
+         * @param {number} quantity - The new quantity.
+         */
+        function updateQuantity(productId, quantity) {
+            const item = cart.find(i => i.id === productId);
+            if (!item) return;
+
+            const newQuantity = parseInt(quantity);
+            if (isNaN(newQuantity) || newQuantity <= 0) {
+                // If quantity is invalid or zero, remove the item
+                cart = cart.filter(i => i.id !== productId);
+            } else {
+                item.quantity = newQuantity;
+            }
+
+            saveCart();
+            updateCartDisplay();
+        }
+
+        /**
+         * Removes all items from the cart.
+         */
+        function clearCart() {
+            if (cart.length === 0) {
+                 showModal("Cart Empty", "Your cart is already empty.", 'info');
+                 return;
+            }
+            cart = [];
+            saveCart();
+            updateCartDisplay();
+            showModal("Cart Cleared", "All items have been removed from your cart.", 'info');
+        }
+
+
+        /**
+         * Calculates total and updates all UI elements related to the cart.
+         */
+        function updateCartDisplay() {
+            let total = 0;
+            let totalItems = 0;
+            
+            cartItemsContainer.innerHTML = '';
+            
+            if (cart.length === 0) {
+                emptyCartMessage.classList.remove('hidden');
+                cartItemsContainer.appendChild(emptyCartMessage);
+                cartBadgeSpan.classList.add('hidden');
+            } else {
+                emptyCartMessage.classList.add('hidden');
+                
+                cart.forEach(item => {
+                    const itemTotal = item.price * item.quantity;
+                    total += itemTotal;
+                    totalItems += item.quantity;
+
+                    const cartItemHtml = `
+                        <div class="flex flex-col sm:flex-row items-center border-b border-gray-100 pb-4 last:border-b-0">
+                            <img src="${item.image}" alt="${item.name}" class="w-20 h-20 object-cover rounded-lg mr-4 shadow-sm mb-2 sm:mb-0">
+                            <div class="flex-grow">
+                                <h4 class="font-bold text-lg">${item.name}</h4>
+                                <p class="text-gray-600">$${item.price.toFixed(2)} each</p>
+                            </div>
+                            <div class="flex items-center gap-4 mt-2 sm:mt-0">
+                                <label for="qty-${item.id}" class="text-sm font-medium">Qty:</label>
+                                <input id="qty-${item.id}" type="number" value="${item.quantity}" min="0" 
+                                    onchange="updateQuantity(${item.id}, this.value)" 
+                                    class="w-16 p-2 border rounded-lg text-center focus:border-teal-500 focus:ring-1 focus:ring-teal-500">
+                                <span class="font-bold text-teal-600 w-20 text-right">$${itemTotal.toFixed(2)}</span>
+                            </div>
+                        </div>
+                    `;
+                    cartItemsContainer.innerHTML += cartItemHtml;
+                });
+
+                cartBadgeSpan.classList.remove('hidden');
+                cartBadgeSpan.textContent = totalItems;
+            }
+            
+            // Update totals in UI
+            cartTotalSpan.textContent = `$${total.toFixed(2)}`;
+            paymentButtonTotal.textContent = `$${total.toFixed(2)}`;
+            cartCountSpan.textContent = totalItems;
+
+            if (totalItems === 0) {
+                cartBadgeSpan.classList.add('hidden');
+            }
+        }
+
+        /**
+         * Simulates the payment process.
+         */
+        function mockPayment() {
+            if (cart.length === 0) {
+                showModal("Order Failed", "Your cart is empty. Please add items before checking out.", 'error');
+                return;
+            }
+
+            // Simple validation check for demo purposes
+            const inputs = document.querySelectorAll('#checkout-form input[type="text"], #checkout-form input[type="email"]');
+            let allFieldsFilled = true;
+            inputs.forEach(input => {
+                // Check if value is empty and ignore the placeholder logic used below
+                if (input.value.trim() === '' && input.placeholder.indexOf('REQUIRED') === -1) {
+                    allFieldsFilled = false;
+                    input.classList.add('border-red-500'); // Highlight missing field
+                    input.placeholder = `REQUIRED: ${input.placeholder}`;
+                } else if (input.value.trim() === '') {
+                    allFieldsFilled = false; // Keep flag false if still empty
+                } 
+                else {
+                    input.classList.remove('border-red-500');
+                    // Reset placeholder if it contains 'REQUIRED'
+                    if (input.placeholder.indexOf('REQUIRED') !== -1) {
+                        input.placeholder = input.placeholder.replace('REQUIRED: ', '');
+                    }
+                }
+            });
+
+            if (!allFieldsFilled) {
+                showModal("Missing Information", "Please fill out all shipping and contact fields.", 'error');
+                return;
+            }
+
+            // Mock successful payment
+            const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
+            const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2);
+
+            showModal(
+                "Payment Successful!", 
+                `Your order for $${total} has been processed successfully using ${paymentMethod.toUpperCase()}. Confirmation email sent!`,
+                'success'
+            );
+            
+            // Clear cart and reset form after successful payment simulation
+            cart = [];
+            saveCart(); // Persist the empty cart state
+            updateCartDisplay();
+            
+            // Manually clear text/email fields
+            document.querySelectorAll('#checkout-form input[type="text"], #checkout-form input[type="email"]').forEach(input => {
+                 if (input.placeholder.indexOf('REQUIRED') !== -1) {
+                    input.placeholder = input.placeholder.replace('REQUIRED: ', '');
+                }
+                input.value = '';
+                input.classList.remove('border-red-500');
+            });
+        }
+
+
+        // --- Initialization ---
+        window.onload = () => {
+            loadCart();
+            updateCartDisplay(); // Display cart immediately after loading
+        };
+    </script>
+</body>
+</html>
